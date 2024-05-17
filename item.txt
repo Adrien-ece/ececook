@@ -1,0 +1,9 @@
+1=tomate
+2=tomate decoupe
+3=tomate cuite
+4=pain
+5=pain decoupe
+6=poisson cru
+7=poisson cuit
+8=assiette
+9=poisson a la sauce tomate
