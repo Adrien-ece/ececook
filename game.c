@@ -61,6 +61,7 @@ ZoneMessage zonesMessages[] = {
         {{303, 247, 384, 279}, "Cuire un aliment"},
         {{521,106,539,117}, "Jeter aliment"},
         {{490,279,643,297}, "Prendre assiette"},
+        {{259,388,416,440},"Livrer un plat"}
 
 };
 
@@ -200,6 +201,11 @@ void jouerPartie() {
 
     BITMAP *imagePoissonTomate = charger_image("../saumon_tomate.bmp");
     if(!imagePoissonTomate){
+        return;
+    }
+
+    BITMAP *imageCeviche = charger_image("../ceviche_tomate.bmp");
+    if(!imageCeviche){
         return;
     }
 
@@ -406,10 +412,23 @@ void jouerPartie() {
             printf("Joueur 1 : Poisson a la sauce tomate ajoute a l'inventaire\n");
 
         }
-        // Dessine l'image du poisson cuit si le joueur 1 en a un
-        if (inventaireJoueur1.items[8] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
+        // Dessine l'image du poisson cuit a la sauce tomate si le joueur 1 en a un
+        if (inventaireJoueur1.items[8] > 0) {
             draw_sprite(screen, imagePoissonTomate, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
+
+        // Intéraction pour avoir un ceviche si le joueur 1 en a un
+        if(inventaireJoueur1.items[1]>0 && inventaireJoueur1.items[5]>0){
+            inventaireJoueur1.items[1]--;
+            inventaireJoueur1.items[5]--;
+            ajouterItem(&inventaireJoueur1, 9);
+            printf("Joueur 1 : Ceviche a la tomate ajoutee a l'inventaire\n");
+        }
+        // Dessine l'image du ceviche si le joueur 1 en a un
+        if(inventaireJoueur1.items[9]>0){
+            draw_sprite(screen,imageCeviche, balleX1 + 20, balleY1 - 20);
+        }
+
 
 
 
@@ -456,6 +475,9 @@ void jouerPartie() {
             }
             else if (inventaireJoueur1.itemPose == 7) {
                 draw_sprite(screen, imageAssiette, inventaireJoueur1.posItemX, inventaireJoueur1.posItemY);
+            }
+            else if (inventaireJoueur1.itemPose == 9){
+                draw_sprite(screen, imageCeviche, inventaireJoueur1.posItemX, inventaireJoueur1.posItemY);
             }
         }
 
@@ -625,9 +647,23 @@ void jouerPartie() {
             printf("Joueur 2 : Poisson a la sauce tomate ajoute a l'inventaire\n");
 
         }
-        // Dessine l'image du a la sauce tomate si le joueur 1 en a un
+        // Dessine l'image du à la sauce tomate si le joueur 1 en a un
         if (inventaireJoueur2.items[8] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
             draw_sprite(screen, imagePoissonTomate, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        }
+
+
+        // Intéraction pour avoir un ceviche à la tomate
+        if(inventaireJoueur2.items[1]> 0 && inventaireJoueur2.items[5] > 0){
+            inventaireJoueur2.items[1]--;
+            inventaireJoueur2.items[5]--;
+            ajouterItem(&inventaireJoueur2, 9);
+            printf("Joueur 2 : Ceviche a la tomate ajoute a l'inventaire\n");
+
+        }
+        // Dessine l'image du ceviche à la tomate si le joueur 1 en a un
+        if (inventaireJoueur2.items[9] > 0) {
+            draw_sprite(screen, imageCeviche, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
         // Interaction pour poser ou reprendre un item pour le joueur 2
@@ -677,6 +713,9 @@ void jouerPartie() {
             }
             else if (inventaireJoueur2.itemPose ==8){
                 draw_sprite(screen, imagePoissonTomate, inventaireJoueur2.posItemX, inventaireJoueur2.posItemY);
+            }
+            else if (inventaireJoueur2.itemPose == 9){
+                draw_sprite(screen, imageCeviche, inventaireJoueur2.posItemX, inventaireJoueur2.posItemY);
             }
         }
 
