@@ -187,6 +187,12 @@ void jouerPartie() {
         return;
     }
 
+    BITMAP *imagePoissonTomate = charger_image("../saumon_tomate.bmp");
+    if(!imagePoissonTomate){
+        return;
+    }
+
+
 
     // Charger les items pour les deux joueurs
     chargerItems(&inventaireJoueur1);
@@ -381,6 +387,20 @@ void jouerPartie() {
             draw_sprite(screen, imageLegumeDecoupe, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
 
+        // Intéraction pour avoir un poisson a la sauce tomate
+        if(inventaireJoueur1.items[1]> 0 && inventaireJoueur1.items[6] > 0){
+            inventaireJoueur1.items[1]--;
+            inventaireJoueur1.items[6]--;
+            ajouterItem(&inventaireJoueur1, 8);
+            printf("Joueur 1 : Poisson a la sauce tomate ajoute a l'inventaire\n");
+
+        }
+        // Dessine l'image du poisson cuit si le joueur 1 en a un
+        if (inventaireJoueur1.items[8] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
+            draw_sprite(screen, imagePoissonTomate, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
+        }
+
+
 
         // Interaction pour poser ou reprendre un item pour le joueur 1
         if (balleX1 >= 222 && balleX1 <= 298 && balleY1 >= 155 && balleY1 <= 198) {
@@ -486,13 +506,13 @@ void jouerPartie() {
             }
         }
 
-        // Dessine l'image dde l'assiette si le joueur a une assiette
+        // Dessine l'image de l'assiette si le joueur a une assiette
         if (inventaireJoueur2.items[7] > 0) {  //
             draw_sprite(screen, imageAssiette, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
 
-            // Interaction spécifique dans la zone pour le poisson cru
+        // Interaction spécifique dans la zone pour le poisson cru
         if (balleX2 >= 93 && balleX2 <= 110 && balleY2 >= 181 && balleY2 <= 210) {
             // Gère la prise du poisson cru lorsque la touche L est pressée et que la touche n'était pas déjà pressée
             if (key[KEY_L] && !key_l_pressed2) {
@@ -524,7 +544,7 @@ void jouerPartie() {
 
         // Intéraction pour la découpe du legume pour le joueur2
         if (balleX2 >= 220 && balleX2 <= 289 && balleY2 >= 199 && balleY2 <= 274){
-            if(key[KEY_M] && inventaireJoueur2.items[0] > 0 && !decoupe_commencee_j2) {
+            if(key[KEY_L] && inventaireJoueur2.items[0] > 0 && !decoupe_commencee_j2) {
                 temps_debut_decoupe_j2 = time(NULL);
                 decoupe_commencee_j2 =1;
             }
@@ -548,6 +568,11 @@ void jouerPartie() {
             draw_sprite(screen, imageLegumeDecoupe, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
+        // Dessine l'image du legume decoupe si le joueur a un legume decoupe
+        if (inventaireJoueur2.items[1] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
+            draw_sprite(screen, imageLegumeDecoupe, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        }
+
 
 
         // Interaction pour poser ou reprendre un item pour le joueur 2
@@ -555,20 +580,20 @@ void jouerPartie() {
             if (key[KEY_L] && !key_l_pressed2) {
                 if (inventaireJoueur2.itemPose == -1 && inventaireJoueur2.sommetPile >= 0) {
                     // Poser l'item
-                    int indexItem = inventaireJoueur2.pileItemsPris[inventaireJoueur2.sommetPile];
-                    inventaireJoueur2.items[indexItem]--;
-                    inventaireJoueur2.itemPose = indexItem;
+                    int indexItem2 = inventaireJoueur2.pileItemsPris[inventaireJoueur2.sommetPile];
+                    inventaireJoueur2.items[indexItem2]--;
+                    inventaireJoueur2.itemPose = indexItem2;
                     inventaireJoueur2.posItemX = balleX2;
                     inventaireJoueur2.posItemY = balleY2;
                     inventaireJoueur2.sommetPile--;
-                    printf("Joueur 2 : Item %s pose\n", inventaireJoueur2.itemNames[indexItem]);
+                    printf("Joueur 1 : Item %s posé\n", inventaireJoueur2.itemNames[indexItem2]);
                 } else if (inventaireJoueur2.itemPose != -1) {
                     // Reprendre l'item
-                    int indexItem = inventaireJoueur2.itemPose;
-                    inventaireJoueur2.items[indexItem]++;
+                    int indexItem2 = inventaireJoueur2.itemPose;
+                    inventaireJoueur2.items[indexItem2]++;
                     inventaireJoueur2.sommetPile++;
-                    inventaireJoueur2.pileItemsPris[inventaireJoueur2.sommetPile] = indexItem;
-                    printf("Joueur 2 : Item %s repris\n", inventaireJoueur2.itemNames[indexItem]);
+                    inventaireJoueur2.pileItemsPris[inventaireJoueur2.sommetPile] = indexItem2;
+                    printf("Joueur 1 : Item %s repris\n", inventaireJoueur2.itemNames[indexItem2]);
                     inventaireJoueur2.itemPose = -1;
                     inventaireJoueur2.posItemX = -1;
                     inventaireJoueur2.posItemY = -1;
@@ -594,6 +619,9 @@ void jouerPartie() {
             }
             else if (inventaireJoueur2.itemPose == 7){
                 draw_sprite(screen, imageAssiette, inventaireJoueur2.posItemX, inventaireJoueur2.posItemY);
+            }
+            else if (inventaireJoueur2.itemPose ==8){
+                draw_sprite(screen, imagePoissonTomate, inventaireJoueur2.posItemX, inventaireJoueur2.posItemY);
             }
         }
 
@@ -626,34 +654,12 @@ void jouerPartie() {
             }
         }
 
-        // Dessine l'image du poisson si le joueur a un poisson cru
+        // Dessine l'image du poisson si le joueur 2 a un poisson cru
         if (inventaireJoueur2.items[6] > 0) {  // Supposons que l'index 6 correspond au poisson cru
             draw_sprite(screen, imagePoissonCuit, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-
-        // Interaction pour poser ou reprendre un item pour le joueur 2
-        if (balleX2 >= 220 && balleX2 <= 289 && balleY2 >= 199 && balleY2 <= 274) {
-            if (key[KEY_L] && !key_l_pressed2) {
-                if (inventaireJoueur2.itemPose == -1 && inventaireJoueur2.sommetPile >= 0) {
-                    // Poser l'item
-                    int indexItem = inventaireJoueur2.pileItemsPris[inventaireJoueur2.sommetPile];
-                    inventaireJoueur2.items[indexItem]--;
-                    inventaireJoueur2.itemPose = indexItem;
-                    inventaireJoueur2.sommetPile--;
-                    printf("Joueur 2 : Item %s pose\n", inventaireJoueur2.itemNames[indexItem]);
-                } else if (inventaireJoueur2.itemPose != -1) {
-                    // Reprendre l'item
-                    int indexItem = inventaireJoueur2.itemPose;
-                    inventaireJoueur2.items[indexItem]++;
-                    inventaireJoueur2.sommetPile++;
-                    inventaireJoueur2.pileItemsPris[inventaireJoueur2.sommetPile] = indexItem;
-                    printf("Joueur 2 : Item %s repris\n", inventaireJoueur2.itemNames[indexItem]);
-                    inventaireJoueur2.itemPose = -1;
-                }
-                key_l_pressed2 = 1;
-            }
-        }
+        
         if (!key[KEY_L]) {
             key_l_pressed2 = 0;
         }
