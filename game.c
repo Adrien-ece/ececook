@@ -1,6 +1,7 @@
 #include "game.h"
 #include "generation.h"
 #include <stdio.h>
+#include <string.h>
 
 // Fonction pour afficher le minuteur en haut à droite de l'écran avec différentes couleurs en fonction du temps restant
 void afficher_minuteur(int tempsRestant) {
