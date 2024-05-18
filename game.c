@@ -526,6 +526,33 @@ void jouerPartie() {
             draw_sprite(screen, imagePoissonCru, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
+
+        // Vérification et début de la cuisson pour le Joueur 2
+        if ((balleX2 >= 307 && balleX2 <= 382 && balleY2 >= 146 && balleY2 <= 171)||
+            (balleX2 >= 303 && balleX2 <= 384 && balleY2 >= 247 && balleY2 <= 279)){
+            if (key[KEY_SEMICOLON] && inventaireJoueur2.items[5] > 0 && !cuisson_commencee_j2) {
+                temps_debut_cuisson_j2 = time(NULL);  // Enregistre le moment du début de la cuisson
+                cuisson_commencee_j2 = 1;
+            }
+        }
+        // Vérifier si la cuisson est terminée
+        if (cuisson_commencee_j2 && (time(NULL) - temps_debut_cuisson_j2) >= 3) {
+            if (inventaireJoueur2.items[5] > 0) {  // Assurez-vous qu'il y a des poissons crus
+                inventaireJoueur2.items[5]--;
+                ajouterItem(&inventaireJoueur2, 6);  // Index 6 pour 'poisson cuit'
+                cuisson_commencee_j2 = 0;
+                printf("Joueur 2 : Poisson cuit ajoute a l'inventaire\n");
+            } else {
+                cuisson_commencee_j2 = 0;  // Réinitialiser si aucune cuisson n'est possible
+                printf("Joueur 2 : Aucun poisson cru a cuire\n");
+            }
+        }
+
+        // Dessine l'image du poisson si le joueur 2 a un poisson cru
+        if (inventaireJoueur2.items[6] > 0) {  // Supposons que l'index 6 correspond au poisson cru
+            draw_sprite(screen, imagePoissonCuit, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        }
+
         // Intéraction spécifique dans la zone pour le legume
         if (balleX2 >= 102 && balleX2 <=112 && balleY2 >= 140 && balleY2 <=175){
             // Gère la prise du legume lorsque la touche L est pressée et que la touche n'était pas déjà pressée
@@ -568,12 +595,19 @@ void jouerPartie() {
             draw_sprite(screen, imageLegumeDecoupe, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-        // Dessine l'image du legume decoupe si le joueur a un legume decoupe
-        if (inventaireJoueur2.items[1] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
-            draw_sprite(screen, imageLegumeDecoupe, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+
+        // Intéraction pour avoir un poisson a la sauce tomate
+        if(inventaireJoueur2.items[1]> 0 && inventaireJoueur2.items[6] > 0){
+            inventaireJoueur2.items[1]--;
+            inventaireJoueur2.items[6]--;
+            ajouterItem(&inventaireJoueur2, 8);
+            printf("Joueur 2 : Poisson a la sauce tomate ajoute a l'inventaire\n");
+
         }
-
-
+        // Dessine l'image du a la sauce tomate si le joueur 1 en a un
+        if (inventaireJoueur2.items[8] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
+            draw_sprite(screen, imagePoissonTomate, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        }
 
         // Interaction pour poser ou reprendre un item pour le joueur 2
         if (balleX2 >= 222 && balleX2 <= 298 && balleY2 >= 155 && balleY2 <= 198) {
@@ -633,33 +667,6 @@ void jouerPartie() {
 
 
 
-        // Vérification et début de la cuisson pour le Joueur 2
-        if ((balleX2 >= 307 && balleX2 <= 382 && balleY2 >= 146 && balleY2 <= 171)||
-            (balleX2 >= 303 && balleX2 <= 384 && balleY2 >= 247 && balleY2 <= 279)){
-            if (key[KEY_M] && inventaireJoueur2.items[5] > 0 && !cuisson_commencee_j2) {
-                temps_debut_cuisson_j2 = time(NULL);  // Enregistre le moment du début de la cuisson
-                cuisson_commencee_j2 = 1;
-            }
-        }
-        // Vérifier si la cuisson est terminée
-        if (cuisson_commencee_j2 && (time(NULL) - temps_debut_cuisson_j2) >= 3) {
-            if (inventaireJoueur2.items[5] > 0) {  // Assurez-vous qu'il y a des poissons crus
-                inventaireJoueur2.items[5]--;
-                ajouterItem(&inventaireJoueur2, 6);  // Index 6 pour 'poisson cuit'
-                cuisson_commencee_j2 = 0;
-                printf("Joueur 2 : Poisson cuit ajoute a l'inventaire\n");
-            } else {
-                cuisson_commencee_j2 = 0;  // Réinitialiser si aucune cuisson n'est possible
-                printf("Joueur 2 : Aucun poisson cru a cuire\n");
-            }
-        }
-
-        // Dessine l'image du poisson si le joueur 2 a un poisson cru
-        if (inventaireJoueur2.items[6] > 0) {  // Supposons que l'index 6 correspond au poisson cru
-            draw_sprite(screen, imagePoissonCuit, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
-        }
-
-        
         if (!key[KEY_L]) {
             key_l_pressed2 = 0;
         }
@@ -751,6 +758,7 @@ void jouerPartie() {
 
     destroy_bitmap(imagePoissonCru);
     destroy_bitmap(imagePoissonCuit);
+
 
 
     // Arrête la musique de fond
