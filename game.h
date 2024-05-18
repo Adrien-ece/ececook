@@ -29,10 +29,6 @@ typedef struct {
 
 } Inventaire;
 
-
-
-
-
 // Déclarations de variables externes
 extern char pseudoJoueur1[50];
 extern char pseudoJoueur2[50];
