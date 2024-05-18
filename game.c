@@ -154,7 +154,7 @@ void verifierLivraison(Inventaire *inventaire, int itemIndex, int *score, int *n
         for (int i = 0; i < 2; i++) {
             if (commandes[i].itemIndex == itemIndex && inventaire->items[itemIndex] > 0) {
                 inventaire->items[itemIndex]--;  // Retire l'item de l'inventaire
-                printf("Commande livrée : %s\n", inventaire->itemNames[itemIndex]);
+                printf("Commande livree : %s\n", inventaire->itemNames[itemIndex]);
 
                 // Met à jour le score du joueur
                 (*nombreLivraisons)++;
@@ -328,7 +328,7 @@ void jouerPartie() {
 
         // Vérifier si le score total atteint 100
         int scoreTotal = scoreJoueur1 + scoreJoueur2;
-        if (scoreTotal >= 100) {
+        if (scoreTotal >= 1000) {
             clear_bitmap(screen);
             textprintf_centre_ex(screen, font, LARGEUR_ECRAN / 2, HAUTEUR_ECRAN / 2, makecol(0, 255, 0), -1, "Niveau 1 validé !");
             rest(3000);
@@ -483,7 +483,7 @@ void jouerPartie() {
             inventaireJoueur1.items[1]--;
             inventaireJoueur1.items[5]--;
             ajouterItem(&inventaireJoueur1, 9);
-            printf("Joueur 1 : Ceviche a la tomate ajoutee a l'inventaire\n");
+            printf("Joueur 1 : Ceviche a la tomate ajoute a l'inventaire\n");
         }
 
         // Dessine l'image du ceviche si le joueur 1 en a un
@@ -515,7 +515,7 @@ void jouerPartie() {
                     inventaireJoueur1.posItemX = balleX1;
                     inventaireJoueur1.posItemY = balleY1;
                     inventaireJoueur1.sommetPile--;
-                    printf("Joueur 1 : Item %s posé\n", inventaireJoueur1.itemNames[indexItem]);
+                    printf("Joueur 1 : Item %s pose\n", inventaireJoueur1.itemNames[indexItem]);
                 } else if (inventaireJoueur1.itemPose != -1) {
                     // Reprendre l'item
                     int indexItem = inventaireJoueur1.itemPose;
