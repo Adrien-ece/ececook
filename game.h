@@ -6,7 +6,7 @@
 #define LARGEUR_ECRAN 680
 #define HAUTEUR_ECRAN 440
 #define TAILLE_BALLE 20
-#define MAX_ITEMS 5
+#define MAX_ITEMS 10
 
 // Déclaration des structures
 typedef struct {
@@ -29,6 +29,11 @@ typedef struct {
 
 } Inventaire;
 
+typedef struct {
+    int itemIndex;  // Index de l'item dans l'inventaire
+    BITMAP *image;  // Image représentant le plat
+} Commande;
+
 // Déclarations de variables externes
 extern char pseudoJoueur1[50];
 extern char pseudoJoueur2[50];
@@ -36,7 +41,9 @@ extern Rectangle zonesInterdites[];
 extern ZoneMessage zonesMessages[];
 extern Inventaire inventaireJoueur1;
 extern Inventaire inventaireJoueur2;
-
+extern Commande commandes[2];
+extern int scoreJoueur1;
+extern int scoreJoueur2;
 
 // Déclarations de fonctions
 void afficher_minuteur(int tempsRestant);
@@ -45,6 +52,9 @@ void jouerPartie();
 void afficherMenu();
 void afficherRegle();
 void dessiner_jauge(int x, int y, int largeur, int hauteur, double pourcentage);
-
+void initialiserCommandes();
+void afficherCommandes();
+void verifierLivraison(Inventaire *inventaire, int itemIndex, int *score, int *nombreLivraisons, int tempsRestant);
+void afficherScores();
 
 #endif /* GAME_H */
