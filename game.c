@@ -125,6 +125,17 @@ void jeterDernierItem(Inventaire *inventaire) {
     }
 }
 
+void dessiner_jauge(int x, int y, int largeur, int hauteur, double pourcentage) {
+    // Dessiner le fond de la jauge (en gris)
+    rectfill(screen, x, y, x + largeur, y + hauteur, makecol(128, 128, 128));
+
+    // Calculer la largeur de la jauge en fonction du pourcentage de remplissage
+    int largeurRemplie = (int)(largeur * pourcentage);
+
+    // Dessiner la jauge remplie (en vert)
+    rectfill(screen, x, y, x + largeurRemplie, y + hauteur, makecol(0, 255, 0));
+}
+
 
 
 void saisirPseudo(char pseudo[], int joueur) {
@@ -458,6 +469,16 @@ void jouerPartie() {
             }
         }
 
+        // Affichage de la jauge de cuisson pour le Joueur 1
+        if (cuisson_commencee_j1) {
+            double tempsEcoule = time(NULL) - temps_debut_cuisson_j1;
+            double pourcentage = tempsEcoule / 3.0; // Durée totale de cuisson de 3 secondes
+            if (pourcentage > 1.0) pourcentage = 1.0; // S'assurer que le pourcentage ne dépasse pas 100%
+
+            // Dessiner la jauge au-dessus de la tête du joueur 1
+            dessiner_jauge(balleX1 - 20, balleY1 - 30, 40, 5, pourcentage);
+        }
+
         if (!key[KEY_V]) {
             key_v_pressed1 = 0;
         }
@@ -666,14 +687,19 @@ void jouerPartie() {
 
 
 
+        // Affichage de la jauge de cuisson pour le Joueur 2
+        if (cuisson_commencee_j2) {
+            double tempsEcoule = time(NULL) - temps_debut_cuisson_j2;
+            double pourcentage = tempsEcoule / 3.0; // Durée totale de cuisson de 3 secondes
+            if (pourcentage > 1.0) pourcentage = 1.0; // S'assurer que le pourcentage ne dépasse pas 100%
 
-        if (!key[KEY_L]) {
-            key_l_pressed2 = 0;
+            // Dessiner la jauge au-dessus de la tête du joueur 2
+            dessiner_jauge(balleX2 - 20, balleY2 - 30, 40, 5, pourcentage);
         }
 
 
 
-        // Lorsque le joueur est dans une zone où il peut jeter un item
+        // Lorsque le joueur 2 est dans une zone où il peut jeter un item
         if (balleX2 >= 521 && balleX2 <= 539 && balleY2 >= 106 && balleY2 <= 117) {
             if (key[KEY_L]) {
                 jeterDernierItem(&inventaireJoueur2);
