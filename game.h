@@ -44,5 +44,7 @@ void saisirPseudo(char pseudo[], int joueur);
 void jouerPartie();
 void afficherMenu();
 void afficherRegle();
+void dessiner_jauge(int x, int y, int largeur, int hauteur, double pourcentage);
+
 
 #endif /* GAME_H */
