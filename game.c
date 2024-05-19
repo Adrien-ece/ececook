@@ -1,4 +1,4 @@
-#include "game.h"
+/*#include "game.h"
 #include "generation.h"
 #include <stdio.h>
 #include <string.h>
@@ -124,6 +124,12 @@ void verifierLivraison(Inventaire *inventaire, int itemIndex, int *score, int *n
     } else if (itemIndex == 9) {  // Ceviche
         typeDePlat = 5;
     }
+    else if (itemIndex == 16){
+        typeDePlat == 20;
+    }
+    else if (itemIndex == 17){
+        typeDePlat == 10;
+    }
 
     if (typeDePlat > 0) {
         for (int i = 0; i < 2; i++) {
@@ -145,6 +151,14 @@ void verifierLivraison(Inventaire *inventaire, int itemIndex, int *score, int *n
                     case 9:
                         niveaux[niveauActuel].commandes[i].image = charger_image("../ceviche_tomate.bmp");
                         break;
+                    case 16 :
+                        niveaux[niveauActuel].commandes[i].image = charger_image("../sandwich.bmp");
+                        break;
+                    case 17 :
+                        niveaux[niveauActuel].commandes[i].image = charger_image("../salade_exo.bmp");
+                        break;
+
+
                 }
                 break;
             }
@@ -924,3 +938,4 @@ void jouerPartie() {
     // Nettoyage
     destroy_sample(musique_fond);
 }
+ */
