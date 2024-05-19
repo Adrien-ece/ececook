@@ -32,8 +32,8 @@ Rectangle zonesInterditesNiveau2[] = {
 };
 
 ZoneMessage zonesMessagesNiveau2[] = {
-        {{81,359,102,372}, "Prendre mangue"},
-        {{118,360,114,375}, "Prendre du pain"},
+        {{81,359,111,393}, "Prendre mangue"},
+        {{118,360,152,410}, "Prendre du pain"},
         {{159,362,190,376}, "Prendre une crevette"},
         {{565,281,585,320}, "Decouper un aliment"},
         {{553,197,584,245}, "Poser un aliment"},
@@ -45,9 +45,9 @@ ZoneMessage zonesMessagesNiveau2[] = {
 };
 
 void initialiserCommandesNiveau2() {
-    niveaux[1].commandes[0].itemIndex = 8;  // Poisson à la sauce tomate
-    niveaux[1].commandes[0].image = charger_image("../saumon_tomate.bmp");
-    niveaux[1].commandes[1].itemIndex = 9;  // Ceviche
+    niveaux[1].commandes[0].itemIndex = 16;
+    niveaux[1].commandes[0].image = charger_image("../sandwich.bmp");
+    niveaux[1].commandes[1].itemIndex = 17;
     niveaux[1].commandes[1].image = charger_image("../ceviche_tomate.bmp");
 }
 
@@ -64,23 +64,23 @@ void jouerNiveau2() {
         return;
     }
 
-    BITMAP *imagePoissonCru = charger_image("../poisson_cru.bmp");
-    if(!imagePoissonCru){
+    BITMAP *imagePain = charger_image("../pain.bmp");
+    if(!imagePain){
         return;
     }
 
-    BITMAP *imagePoissonCuit = charger_image("../poisson_cuit.bmp");
-    if(!imagePoissonCuit){
+    BITMAP *imageCrevetteCrue = charger_image("../crevette_crue.bmp");
+    if(!imageCrevetteCrue){
         return;
     }
 
-    BITMAP *imageLegume = charger_image("../tomate.bmp");
-    if(!imageLegume){
+    BITMAP *imageSalade = charger_image("../salade.bmp");
+    if(!imageSalade){
         return;
     }
 
-    BITMAP *imageLegumeDecoupe = charger_image("../tomate_cut.bmp");
-    if(!imageLegumeDecoupe){
+    BITMAP *imagePainDecoupe = charger_image("../pain_cut.bmp");
+    if(!imagePainDecoupe){
         return;
     }
 
@@ -89,15 +89,26 @@ void jouerNiveau2() {
         return;
     }
 
-    BITMAP *imagePoissonTomate = charger_image("../saumon_tomate.bmp");
-    if(!imagePoissonTomate){
+    BITMAP *imageSandwich = charger_image("../sandwich.bmp");
+    if(!imageSandwich){
         return;
     }
 
-    BITMAP *imageCeviche = charger_image("../ceviche_tomate.bmp");
-    if(!imageCeviche){
+    BITMAP *imageMangue = charger_image("../mangue.bmp");
+    if(!imageMangue){
         return;
     }
+
+    BITMAP *imageCrevetteCuite = charger_image("../crevette_cuite.bmp");
+    if(!imageCrevetteCuite){
+        return;
+    }
+
+    BITMAP *imageSaladeExo = charger_image("../salade_exo.bmp");
+    if(!imageSaladeExo){
+        return;
+    }
+
 
     // Charger les items pour les deux joueurs
     chargerItems(&niveaux[1].inventaireJoueur1);
@@ -202,7 +213,7 @@ void jouerNiveau2() {
         }
 
         // Intéraction dans la zone pour prendre l'assiette pour le joueur 1
-        if(balleX1 >= 490 && balleX1 <= 643 && balleY1 >= 279 && balleY1 <= 297) {
+        if(balleX1 >= 447 && balleX1 <= 575 && balleY1 >= 108 && balleY1 <= 126) {
             if (key[KEY_C] && !key_c_pressed1) {
                 ajouterItem(&niveaux[1].inventaireJoueur1, 7);
                 printf("Joueur 1 : Assiette ajoutee a l'inventaire\n");
@@ -215,39 +226,38 @@ void jouerNiveau2() {
             draw_sprite(screen, imageAssiette, balleX1 + 20, balleY1 - 20);
         }
 
-        // Interaction spécifique dans la zone pour le poisson cru
-        if (balleX1 >= 93 && balleX1 <= 110 && balleY1 >= 181 && balleY1 <= 210) {
-            // Gère la prise du poisson cru lorsque la touche C est pressée et que la touche n'était pas déjà pressée
+        // Interaction spécifique dans la zone pour la crevette crue
+        if (balleX1 >= 159 && balleX1 <= 190 && balleY1 >= 362 && balleY1 <= 376) {
             if (key[KEY_C] && !key_c_pressed1) {
-                ajouterItem(&niveaux[1].inventaireJoueur1, 5);
-                printf("Joueur 1 : Poisson cru ajoute a l'inventaire: %s\n", niveaux[1].inventaireJoueur1.itemNames[5]);
+                ajouterItem(&niveaux[1].inventaireJoueur1, 12);
+                printf("Joueur 1 : Crevette crue ajoute a l'inventaire: %s\n", niveaux[1].inventaireJoueur1.itemNames[5]);
                 key_c_pressed1 = 1;  // Empêche la répétition jusqu'à ce que la touche soit relâchée
             }
         }
 
-        // Dessine l'image du poisson si le joueur a un poisson cru
-        if (niveaux[1].inventaireJoueur1.items[5] > 0) {  // Supposons que l'index 6 correspond au poisson cru
-            draw_sprite(screen, imagePoissonCru, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image de la crevette crue si le joueur a une crevette crue
+        if (niveaux[1].inventaireJoueur1.items[12] > 0) {  // Supposons que l'index 6 correspond au poisson cru
+            draw_sprite(screen, imageCrevetteCrue, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
 
-        if (balleX1 >= 102 && balleX1 <= 112 && balleY1 >= 140 && balleX1 <= 175) {
+        //Intéraction pour recupérer du pain
+        if (balleX1 >= 114 && balleX1 <= 118 && balleY1 >= 360 && balleX1 <= 375) {
             // Gère la prise du legume lorsque la touche C est pressée et que la touche n'était pas déjà pressée
             if (key[KEY_C] && !key_c_pressed1) {
-                ajouterItem(&niveaux[1].inventaireJoueur1, 0);
-                printf("Joueur 1 : Legume ajoute a l'inventaire");
+                ajouterItem(&niveaux[1].inventaireJoueur1, 14);
+                printf("Joueur 1 : Pain ajoute a l'inventaire");
                 key_c_pressed1 = 1;
             }
         }
 
-        // Dessine l'image du legume si le joueur a un legume
-        if (niveaux[1].inventaireJoueur1.items[0] > 0) {
-            draw_sprite(screen, imageLegume, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du pain si le joueur1 a un pain
+        if (niveaux[1].inventaireJoueur1.items[14] > 0) {
+            draw_sprite(screen, imagePain, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
 
-        // Interaction pour cuire le poisson pour le Joueur 1
-        if ((balleX1 >= 307 && balleX1 <= 382 && balleY1 >= 146 && balleY1 <= 171) ||
-            (balleX1 >= 303 && balleX1 <= 384 && balleY1 >= 247 && balleY1 <= 279)) {
-            if (key[KEY_V] && niveaux[1].inventaireJoueur1.items[5] > 0 && !niveaux[1].cuisson_commencee_j1) {
+        // Interaction pour cuire la crevette pour le Joueur 1
+        if (balleX1 >= 300 && balleX1 <= 373 && balleY1 >= 358 && balleY1 <= 437) {
+            if (key[KEY_V] && niveaux[1].inventaireJoueur1.items[12] > 0 && !niveaux[1].cuisson_commencee_j1) {
                 niveaux[1].temps_debut_cuisson_j1 = time(NULL);  // Début du timing de cuisson
                 niveaux[1].cuisson_commencee_j1 = 1;
             }
@@ -255,80 +265,82 @@ void jouerNiveau2() {
 
         // Vérifier si la cuisson est terminée pour le Joueur 1
         if (niveaux[1].cuisson_commencee_j1 && (time(NULL) - niveaux[1].temps_debut_cuisson_j1) >= 3) {
-            if (niveaux[1].inventaireJoueur1.items[5] > 0) {  // Assurez-vous qu'il y a des poissons crus
-                niveaux[1].inventaireJoueur1.items[5]--;
-                ajouterItem(&niveaux[1].inventaireJoueur1, 6);  // Index 6 pour 'poisson cuit'
+            if (niveaux[1].inventaireJoueur1.items[12] > 0) {  // Assurez-vous qu'il y a des poissons crus
+                niveaux[1].inventaireJoueur1.items[12]--;
+                ajouterItem(&niveaux[1].inventaireJoueur1, 13);  // Index 6 pour 'poisson cuit'
                 niveaux[1].cuisson_commencee_j1 = 0;
-                printf("Joueur 1 : Poisson cuit ajoute a l'inventaire\n");
+                printf("Joueur 1 : Crevette cuite ajoute a l'inventaire\n");
             } else {
                 niveaux[1].cuisson_commencee_j1 = 0;  // Réinitialiser si aucune cuisson n'est possible
                 printf("Joueur 1 : Aucun poisson cru a cuire\n");
             }
         }
 
-        // Dessine l'image du poisson si le joueur a un poisson cuit
-        if (niveaux[1].inventaireJoueur1.items[6] > 0) {  // Supposons que l'index 6 correspond au poisson cuit
-            draw_sprite(screen, imagePoissonCuit, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image de la crevette cuite si le joueur1 a une crevette cuite
+        if (niveaux[1].inventaireJoueur1.items[13] > 0) {  // Supposons que l'index 6 correspond au poisson cuit
+            draw_sprite(screen, imageCrevetteCuite, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction pour la découpe du legume pour le joueur1
-        if (balleX1 >= 220 && balleX1 <= 289 && balleY1 >= 199 && balleY1 <= 274) {
-            if (key[KEY_V] && niveaux[1].inventaireJoueur1.items[0] > 0 && !niveaux[1].decoupe_commencee_j1) {
+        // Intéraction pour la découpe du pain pour le joueur1
+        if (balleX1 >= 565 && balleX1 <= 585 && balleY1 >= 281 && balleY1 <= 320) {
+            if (key[KEY_V] && niveaux[1].inventaireJoueur1.items[14] > 0 && !niveaux[1].decoupe_commencee_j1) {
                 niveaux[1].temps_debut_decoupe_j1 = time(NULL);
                 niveaux[1].decoupe_commencee_j1 = 1;
             }
         }
 
         if (niveaux[1].decoupe_commencee_j1 && (time(NULL) - niveaux[1].temps_debut_decoupe_j1) >= 2) {
-            if (niveaux[1].inventaireJoueur1.items[0] > 0) {
-                niveaux[1].inventaireJoueur1.items[0]--;
-                ajouterItem(&niveaux[1].inventaireJoueur1, 1);
+            if (niveaux[1].inventaireJoueur1.items[14] > 0) {
+                niveaux[1].inventaireJoueur1.items[14]--;
+                ajouterItem(&niveaux[1].inventaireJoueur1, 15);
                 niveaux[1].decoupe_commencee_j1 = 1;
-                printf("Joueur 1 : Tomate decoupee ajoute a l'inventaire\n");
+                printf("Joueur 1 : Pain decoupe ajoute a l'inventaire\n");
             } else {
                 niveaux[1].decoupe_commencee_j1 = 0;
-                printf("Joueur 1 : Aucun legume a decouper\n");
+                printf("Joueur 1 : Aucun pain a decouper\n");
             }
         }
 
         // Dessine l'image du legume decoupe si le joueur a un legume decoupe
-        if (niveaux[1].inventaireJoueur1.items[1] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
-            draw_sprite(screen, imageLegumeDecoupe, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
+        if (niveaux[1].inventaireJoueur1.items[15] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
+            draw_sprite(screen, imagePainDecoupe, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction pour avoir un poisson a la sauce tomate
-        if (niveaux[1].inventaireJoueur1.items[1] > 0 && niveaux[1].inventaireJoueur1.items[6] > 0) {
-            niveaux[1].inventaireJoueur1.items[1]--;
-            niveaux[1].inventaireJoueur1.items[6]--;
-            ajouterItem(&niveaux[1].inventaireJoueur1, 8);
-            printf("Joueur 1 : Poisson a la sauce tomate ajoute a l'inventaire\n");
+        // Intéraction pour avoir un sandwich a la crevette
+        if (niveaux[1].inventaireJoueur1.items[13] > 0 && niveaux[1].inventaireJoueur1.items[11] > 0 && niveaux[1].inventaireJoueur1.items[15]) {
+            niveaux[1].inventaireJoueur1.items[13]--;
+            niveaux[1].inventaireJoueur1.items[11]--;
+            niveaux[1].inventaireJoueur1.items[15]--;
+
+            ajouterItem(&niveaux[1].inventaireJoueur1, 16);
+            printf("Joueur 1 : Sandwich a la crevette ajoute a l'inventaire\n");
         }
 
-        // Dessine l'image du poisson cuit a la sauce tomate si le joueur 1 en a un
-        if (niveaux[1].inventaireJoueur1.items[8] > 0) {
-            draw_sprite(screen, imagePoissonTomate, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du sandwich a la crevette si le joueur 1 en a un
+        if (niveaux[1].inventaireJoueur1.items[16] > 0) {
+            draw_sprite(screen, imageSandwich, balleX1 + 20, balleY1 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction pour avoir un ceviche si le joueur 1 en a un
-        if (niveaux[1].inventaireJoueur1.items[1] > 0 && niveaux[1].inventaireJoueur1.items[5] > 0) {
-            niveaux[1].inventaireJoueur1.items[1]--;
-            niveaux[1].inventaireJoueur1.items[5]--;
-            ajouterItem(&niveaux[1].inventaireJoueur1, 9);
-            printf("Joueur 1 : Ceviche a la tomate ajoute a l'inventaire\n");
+        // Intéraction pour avoir une salade exotique pour le joueur 1
+        if (niveaux[1].inventaireJoueur1.items[11] > 0 && niveaux[1].inventaireJoueur1.items[10] > 0) {
+            niveaux[1].inventaireJoueur1.items[11]--;
+            niveaux[1].inventaireJoueur1.items[10]--;
+            ajouterItem(&niveaux[1].inventaireJoueur1, 17);
+            printf("Joueur 1 : Salade exotique ajoutee a l'inventaire\n");
         }
 
-        // Dessine l'image du ceviche si le joueur 1 en a un
-        if (niveaux[1].inventaireJoueur1.items[9] > 0) {
-            draw_sprite(screen, imageCeviche, balleX1 + 20, balleY1 - 20);
+        // Dessine l'image de la salde exotique pour le joueur 1
+        if (niveaux[1].inventaireJoueur1.items[17] > 0) {
+            draw_sprite(screen, imageSaladeExo, balleX1 + 20, balleY1 - 20);
         }
 
         // Intéraction pour livrer les plats pour le joueur 1
-        if (balleX1 >= 259 && balleX1 <= 416 && balleY1 >= 388 && balleY1 <= 440) {
+        if (balleX1 >= 300 && balleX1 <= 373 && balleY1 >= 358 && balleY1 <= 437) {
             if (key[KEY_V] && !key_v_pressed1) {
-                if (niveaux[1].inventaireJoueur1.items[8] > 0) {
+                if (niveaux[1].inventaireJoueur1.items[16] > 0) {
                     verifierLivraison(&niveaux[1].inventaireJoueur1, 8, &niveaux[1].scoreJoueur1, &niveaux[1].nombreLivraisonsJoueur1, tempsRestant);  // Vérifie la livraison pour le poisson à la sauce tomate
                 }
-                if (niveaux[1].inventaireJoueur1.items[9] > 0) {
+                if (niveaux[1].inventaireJoueur1.items[17] > 0) {
                     verifierLivraison(&niveaux[1].inventaireJoueur1, 9, &niveaux[1].scoreJoueur1, &niveaux[1].nombreLivraisonsJoueur1, tempsRestant);  // Vérifie la livraison pour le ceviche
                 }
                 key_v_pressed1 = 1;
@@ -336,7 +348,7 @@ void jouerNiveau2() {
         }
 
         // Interaction pour poser ou reprendre un item pour le joueur 1
-        if (balleX1 >= 222 && balleX1 <= 298 && balleY1 >= 155 && balleY1 <= 198) {
+        if (balleX1 >= 553 && balleX1 <= 584 && balleY1 >= 197 && balleY1 <= 245) {
             if (key[KEY_C] && !key_c_pressed1) {
                 if (niveaux[1].inventaireJoueur1.itemPose == -1 && niveaux[1].inventaireJoueur1.sommetPile >= 0) {
                     // Poser l'item
@@ -365,23 +377,38 @@ void jouerNiveau2() {
         // Dessiner l'item posé pour le joueur 1
         if (niveaux[1].inventaireJoueur1.itemPose != -1) {
             // Dessiner l'image de l'item en utilisant la position stockée
-            if (niveaux[1].inventaireJoueur1.itemPose == 5) {  // Vérifier le type d'item (ex: poisson cru)
-                draw_sprite(screen, imagePoissonCru, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
-            } else if (niveaux[1].inventaireJoueur1.itemPose == 6) {  // Vérifier le type d'item (ex: poisson cuit)
-                draw_sprite(screen, imagePoissonCuit, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
-            } else if (niveaux[1].inventaireJoueur1.itemPose == 0) {
-                draw_sprite(screen, imageLegume, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
-            } else if (niveaux[1].inventaireJoueur1.itemPose == 1) {
-                draw_sprite(screen, imageLegumeDecoupe, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
-            } else if (niveaux[1].inventaireJoueur1.itemPose == 7) {
-                draw_sprite(screen, imageAssiette, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
-            } else if (niveaux[1].inventaireJoueur1.itemPose == 9) {
-                draw_sprite(screen, imageCeviche, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            if (niveaux[1].inventaireJoueur1.itemPose == 10) {  // Vérifier le type d'item (ex: poisson cru)
+                draw_sprite(screen, imageMangue, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
             }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 11) {  // Vérifier le type d'item (ex: poisson cuit)
+                draw_sprite(screen, imageSalade, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 12) {
+                draw_sprite(screen, imageCrevetteCrue, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 13) {
+                draw_sprite(screen, imageCrevetteCuite, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 14) {
+                draw_sprite(screen, imagePain, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 15) {
+                draw_sprite(screen, imagePainDecoupe, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 7){
+                draw_sprite(screen, imageAssiette, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 16){
+                draw_sprite(screen, imageSandwich, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur1.itemPose == 17){
+                draw_sprite(screen, imageSaladeExo, niveaux[1].inventaireJoueur1.posItemX, niveaux[1].inventaireJoueur1.posItemY);
+            }
+
         }
 
         // Lorsque le joueur est dans une zone où il peut jeter un item
-        if (balleX1 >= 521 && balleX1 <= 539 && balleY1 >= 106 && balleY1 <= 117) {
+        if (balleX1 >= 553 && balleX1 <= 592 && balleY1 >= 343 && balleY1 <= 380) {
             if (key[KEY_V] && !key_v_pressed1) {
                 jeterDernierItem(&niveaux[1].inventaireJoueur1);
                 key_v_pressed1 = 1;  // Empêche la répétition jusqu'à ce que la touche soit relâchée
@@ -447,7 +474,7 @@ void jouerNiveau2() {
         }
 
         // Intéraction spécifique dans la zone pour récupérer une assiette
-        if (balleX2 >= 490 && balleX2 <= 643 && balleY2 >= 279 && balleY2 <= 297) {
+        if (balleX2 >= 447 && balleX2 <= 575 && balleY2 >= 108 && balleY2 <= 126) {
             if (key[KEY_L] && !key_l_pressed2) {
                 ajouterItem(&niveaux[1].inventaireJoueur2, 7);
                 printf("Joueur 2 : Assiette ajoutee a l'inventaire");
@@ -460,25 +487,23 @@ void jouerNiveau2() {
             draw_sprite(screen, imageAssiette, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-        // Interaction spécifique dans la zone pour le poisson cru
-        if (balleX2 >= 93 && balleX2 <= 110 && balleY2 >= 181 && balleY2 <= 210) {
-            // Gère la prise du poisson cru lorsque la touche L est pressée et que la touche n'était pas déjà pressée
+        // Interaction spécifique dans la zone pour la crevette crue
+        if (balleX2 >= 159 && balleX2 <= 190 && balleY2 >= 362 && balleY2 <= 376) {
             if (key[KEY_L] && !key_l_pressed2) {
-                ajouterItem(&niveaux[1].inventaireJoueur2, 5);
-                printf("Joueur 2 : Ajoute a l'inventaire: %s\n", niveaux[1].inventaireJoueur2.itemNames[5]);
+                ajouterItem(&niveaux[1].inventaireJoueur2, 12);
+                printf("Joueur 2 : Crevette crue ajoute a l'inventaire: %s\n", niveaux[1].inventaireJoueur2.itemNames[5]);
                 key_l_pressed2 = 1;  // Empêche la répétition jusqu'à ce que la touche soit relâchée
             }
         }
 
-        // Dessine l'image du poisson si le joueur a un poisson cru
-        if (niveaux[1].inventaireJoueur2.items[5] > 0) {
-            draw_sprite(screen, imagePoissonCru, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du poisson si le joueur a une crevette crue
+        if (niveaux[1].inventaireJoueur2.items[12] > 0) {
+            draw_sprite(screen, imageCrevetteCrue, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
         // Vérification et début de la cuisson pour le Joueur 2
-        if ((balleX2 >= 307 && balleX2 <= 382 && balleY2 >= 146 && balleY2 <= 171) ||
-            (balleX2 >= 303 && balleX2 <= 384 && balleY2 >= 247 && balleY2 <= 279)) {
-            if (key[KEY_SEMICOLON] && niveaux[1].inventaireJoueur2.items[5] > 0 && !niveaux[1].cuisson_commencee_j2) {
+        if (balleX2 >= 300 && balleX2 <= 373 && balleY2 >= 358 && balleY2 <= 437){
+            if (key[KEY_SEMICOLON] && niveaux[1].inventaireJoueur2.items[12] > 0 && !niveaux[1].cuisson_commencee_j2) {
                 niveaux[1].temps_debut_cuisson_j2 = time(NULL);  // Enregistre le moment du début de la cuisson
                 niveaux[1].cuisson_commencee_j2 = 1;
             }
@@ -486,90 +511,90 @@ void jouerNiveau2() {
 
         // Vérifier si la cuisson est terminée
         if (niveaux[1].cuisson_commencee_j2 && (time(NULL) - niveaux[1].temps_debut_cuisson_j2) >= 3) {
-            if (niveaux[1].inventaireJoueur2.items[5] > 0) {  // Assurez-vous qu'il y a des poissons crus
-                niveaux[1].inventaireJoueur2.items[5]--;
-                ajouterItem(&niveaux[1].inventaireJoueur2, 6);  // Index 6 pour 'poisson cuit'
+            if (niveaux[1].inventaireJoueur2.items[12] > 0) {  // Assurez-vous qu'il y a des poissons crus
+                niveaux[1].inventaireJoueur2.items[12]--;
+                ajouterItem(&niveaux[1].inventaireJoueur2, 13);  // Index 6 pour 'poisson cuit'
                 niveaux[1].cuisson_commencee_j2 = 0;
-                printf("Joueur 2 : Poisson cuit ajoute a l'inventaire\n");
+                printf("Joueur 2 : Crevette cuite ajoutee a l'inventaire\n");
             } else {
                 niveaux[1].cuisson_commencee_j2 = 0;  // Réinitialiser si aucune cuisson n'est possible
                 printf("Joueur 2 : Aucun poisson cru a cuire\n");
             }
         }
 
-        // Dessine l'image du poisson si le joueur 2 a un poisson cru
-        if (niveaux[1].inventaireJoueur2.items[6] > 0) {  // Supposons que l'index 6 correspond au poisson cuit
-            draw_sprite(screen, imagePoissonCuit, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du poisson si le joueur 2 a une crevette cuite
+        if (niveaux[1].inventaireJoueur2.items[13] > 0) {  // Supposons que l'index 6 correspond au poisson cuit
+            draw_sprite(screen, imageCrevetteCuite, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction spécifique dans la zone pour le legume
-        if (balleX2 >= 102 && balleX2 <= 112 && balleY2 >= 140 && balleY2 <= 175) {
-            // Gère la prise du legume lorsque la touche L est pressée et que la touche n'était pas déjà pressée
+        // Intéraction spécifique dans la zone pour le pain
+        if (balleX2 >= 114 && balleX2 <= 118 && balleY2 >= 360 && balleY2 <= 375) {
             if (key[KEY_L] && !key_l_pressed2) {
-                ajouterItem(&niveaux[1].inventaireJoueur2, 0);
-                printf("Joueur 2 : Ajoute a l'inventaire: %s\n", niveaux[1].inventaireJoueur2.itemNames[0]);
+                ajouterItem(&niveaux[1].inventaireJoueur2, 14);
+                printf("Joueur 2 : Pain ajoute a l'inventaire: %s\n", niveaux[1].inventaireJoueur2.itemNames[0]);
                 key_l_pressed2 = 1;  // Empêche la répétition jusqu'à ce que la touche soit relâchée
             }
         }
 
-        // Dessine l'image du legume si le joueur a un legume
-        if (niveaux[1].inventaireJoueur2.items[0] > 0) {
-            draw_sprite(screen, imageLegume, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du legume si le joueur a du pain
+        if (niveaux[1].inventaireJoueur2.items[14] > 0) {
+            draw_sprite(screen, imagePain, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction pour la découpe du legume pour le joueur2
-        if (balleX2 >= 220 && balleX2 <= 289 && balleY2 >= 199 && balleY2 <= 274) {
-            if (key[KEY_L] && niveaux[1].inventaireJoueur2.items[0] > 0 && !niveaux[1].decoupe_commencee_j2) {
+        // Intéraction pour la découpe du pain pour le joueur2
+        if (balleX2 >= 565 && balleX2 <= 585 && balleY2 >= 281 && balleY2 <= 320) {
+            if (key[KEY_L] && niveaux[1].inventaireJoueur2.items[14] > 0 && !niveaux[1].decoupe_commencee_j2) {
                 niveaux[1].temps_debut_decoupe_j2 = time(NULL);
                 niveaux[1].decoupe_commencee_j2 = 1;
             }
         }
 
         if (niveaux[1].decoupe_commencee_j2 && (time(NULL) - niveaux[1].temps_debut_decoupe_j2) >= 2) {
-            if (niveaux[1].inventaireJoueur2.items[0] > 0) {
-                niveaux[1].inventaireJoueur2.items[0]--;
-                ajouterItem(&niveaux[1].inventaireJoueur2, 1);
+            if (niveaux[1].inventaireJoueur2.items[14] > 0) {
+                niveaux[1].inventaireJoueur2.items[14]--;
+                ajouterItem(&niveaux[1].inventaireJoueur2, 15);
                 niveaux[1].decoupe_commencee_j2 = 1;
-                printf("Joueur 2 : Tomate decoupee ajoute a l'inventaire\n");
+                printf("Joueur 2 : Pain decoupe ajoute a l'inventaire\n");
             } else {
                 niveaux[1].decoupe_commencee_j2 = 0;
-                printf("Joueur 2 : Aucun legume a decouper\n");
+                printf("Joueur 2 : Aucun pain a decouper\n");
             }
         }
 
-        // Dessine l'image du legume decoupe si le joueur a un legume decoupe
-        if (niveaux[1].inventaireJoueur2.items[1] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
-            draw_sprite(screen, imageLegumeDecoupe, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du pain decoupe
+        if (niveaux[1].inventaireJoueur2.items[15] > 0) {  // Supposons que l'index 1 correspond au legume decoupe
+            draw_sprite(screen, imagePainDecoupe, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction pour avoir un poisson a la sauce tomate
-        if (niveaux[1].inventaireJoueur2.items[1] > 0 && niveaux[1].inventaireJoueur2.items[6] > 0) {
-            niveaux[1].inventaireJoueur2.items[1]--;
-            niveaux[1].inventaireJoueur2.items[6]--;
-            ajouterItem(&niveaux[1].inventaireJoueur2, 8);
-            printf("Joueur 2 : Poisson a la sauce tomate ajoute a l'inventaire\n");
+        // Intéraction pour avoir un sandwich a la crevette
+        if (niveaux[1].inventaireJoueur2.items[13] > 0 && niveaux[1].inventaireJoueur2.items[11] > 0 && niveaux[1].inventaireJoueur2.items[15] > 0) {
+            niveaux[1].inventaireJoueur2.items[11]--;
+            niveaux[1].inventaireJoueur2.items[13]--;
+            niveaux[1].inventaireJoueur2.items[15]--;
+            ajouterItem(&niveaux[1].inventaireJoueur2, 16);
+            printf("Joueur 2 : Sandwich a la crevette ajoute a l'inventaire\n");
         }
 
-        // Dessine l'image du poisson cuit a la sauce tomate si le joueur 2 en a un
-        if (niveaux[1].inventaireJoueur2.items[8] > 0) {
-            draw_sprite(screen, imagePoissonTomate, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
+        // Dessine l'image du sandwich
+        if (niveaux[1].inventaireJoueur2.items[16] > 0) {
+            draw_sprite(screen, imageSandwich, balleX2 + 20, balleY2 - 20); // Ajuste la position relative au personnage
         }
 
-        // Intéraction pour avoir un ceviche si le joueur 2 en a un
-        if (niveaux[1].inventaireJoueur2.items[1] > 0 && niveaux[1].inventaireJoueur2.items[5] > 0) {
-            niveaux[1].inventaireJoueur2.items[1]--;
-            niveaux[1].inventaireJoueur2.items[5]--;
-            ajouterItem(&niveaux[1].inventaireJoueur2, 9);
-            printf("Joueur 2 : Ceviche a la tomate ajoute a l'inventaire\n");
+        // Intéraction pour avoir une salade exotique si le joueur 2 en a une
+        if (niveaux[1].inventaireJoueur2.items[11] > 0 && niveaux[1].inventaireJoueur2.items[10] > 0) {
+            niveaux[1].inventaireJoueur2.items[10]--;
+            niveaux[1].inventaireJoueur2.items[11]--;
+            ajouterItem(&niveaux[1].inventaireJoueur2, 17);
+            printf("Joueur 2 : Salade exotique ajoutee a l'inventaire\n");
         }
 
-        // Dessine l'image du ceviche si le joueur 2 en a un
-        if (niveaux[1].inventaireJoueur2.items[9] > 0) {
-            draw_sprite(screen, imageCeviche, balleX2 + 20, balleY2 - 20);
+        // Dessine l'image de la salade exotique
+        if (niveaux[1].inventaireJoueur2.items[17] > 0) {
+            draw_sprite(screen, imageSaladeExo, balleX2 + 20, balleY2 - 20);
         }
 
         // Interaction pour poser ou reprendre un item pour le joueur 2
-        if (balleX2 >= 222 && balleX2 <= 298 && balleY2 >= 155 && balleY2 <= 198) {
+        if (balleX2 >= 553 && balleX2 <= 584 && balleY2 >= 197 && balleY2 <= 245) {
             if (key[KEY_L] && !key_l_pressed2) {
                 if (niveaux[1].inventaireJoueur2.itemPose == -1 && niveaux[1].inventaireJoueur2.sommetPile >= 0) {
                     // Poser l'item
@@ -598,21 +623,34 @@ void jouerNiveau2() {
         // Dessiner l'item posé pour le joueur 2
         if (niveaux[1].inventaireJoueur2.itemPose != -1) {
             // Dessiner l'image de l'item en utilisant la position stockée
-            if (niveaux[1].inventaireJoueur2.itemPose == 5) {  // Vérifier le type d'item (ex: poisson cru)
-                draw_sprite(screen, imagePoissonCru, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
-            } else if (niveaux[1].inventaireJoueur2.itemPose == 6) {  // Vérifier le type d'item (ex: poisson cuit)
-                draw_sprite(screen, imagePoissonCuit, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
-            } else if (niveaux[1].inventaireJoueur2.itemPose == 0) {
-                draw_sprite(screen, imageLegume, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
-            } else if (niveaux[1].inventaireJoueur2.itemPose == 1) {
-                draw_sprite(screen, imageLegumeDecoupe, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
-            } else if (niveaux[1].inventaireJoueur2.itemPose == 7) {
-                draw_sprite(screen, imageAssiette, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
-            } else if (niveaux[1].inventaireJoueur2.itemPose == 8) {
-                draw_sprite(screen, imagePoissonTomate, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
-            } else if (niveaux[1].inventaireJoueur2.itemPose == 9) {
-                draw_sprite(screen, imageCeviche, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            if (niveaux[1].inventaireJoueur2.itemPose == 10) {
+                draw_sprite(screen, imageMangue, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
             }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 11) {
+                draw_sprite(screen, imageSalade, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 12) {
+                draw_sprite(screen, imageCrevetteCrue, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 13) {
+                draw_sprite(screen, imageCrevetteCuite, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 14) {
+                draw_sprite(screen, imagePain, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 15) {
+                draw_sprite(screen, imagePainDecoupe, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 7){
+                draw_sprite(screen, imageAssiette, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 16){
+                draw_sprite(screen, imageSandwich, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+            else if (niveaux[1].inventaireJoueur2.itemPose == 17){
+                draw_sprite(screen, imageSaladeExo, niveaux[1].inventaireJoueur2.posItemX, niveaux[1].inventaireJoueur2.posItemY);
+            }
+
         }
 
         // Intéraction pour livrer les plats pour le joueur 2
@@ -659,7 +697,7 @@ void jouerNiveau2() {
         }
 
         // Lorsque le joueur 2 est dans une zone où il peut jeter un item
-        if (balleX2 >= 521 && balleX2 <= 539 && balleY2 >= 106 && balleY2 <= 117) {
+        if (balleX2 >= 553 && balleX2 <= 592 && balleY2 >= 343 && balleY2 <= 380) {
             if (key[KEY_L] && !key_l_pressed2) {
                 jeterDernierItem(&niveaux[1].inventaireJoueur2);
                 key_l_pressed2 = 1;
@@ -744,8 +782,15 @@ void jouerNiveau2() {
         vsync();
     }
 
-    destroy_bitmap(imagePoissonCru);
-    destroy_bitmap(imagePoissonCuit);
+    destroy_bitmap(imageSaladeExo);
+    destroy_bitmap(imageSandwich);
+    destroy_bitmap(imagePainDecoupe);
+    destroy_bitmap(imagePain);
+    destroy_bitmap(imageCrevetteCrue);
+    destroy_bitmap(imageCrevetteCuite);
+    destroy_bitmap(imageSalade);
+    destroy_bitmap(imageMangue);
+    destroy_bitmap(imageAssiette);
 
     // Arrête la musique de fond
     stop_sample(musique_fond);
